@@ -25,3 +25,14 @@
 6. 上述步骤可以执行在服务器中执行。如果是在本地执行生成了最终数据，那么有如下几种迁移方式：
     * 用elasticsearch自带的api `reindex`。
     * 直接将本地elasticsearch的home目录下的data文件夹拷贝到服务器中。
+
+docker部署elasticsearch镜像的常见问题：
+
+1. 通过`docker search elasticsearch`查看的elasticsearch版本是已经没有更新的老版本。最新的参考[这里](https://www.docker.elastic.co/)
+2. docker运行挂载volumn的elasticsearch容器，通过`docker logs`，会查看到权限不足的问题，这个时候将要挂载的volumn权限修改成775
+3. 暴露外网需要修改配置文件conf/elasticsearch.yml中的`network.host:0.0.0.0`
+4. 暴露外网后，如果通过`docker logs`查看到`max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]`,那么在宿主机上执行`sudo sysctl -w vm.max_map_count=262144 docker`，具体参考docker的官方elasticsearch镜像的[issue](https://github.com/docker-library/elasticsearch/issues/98)
+5. conf/jvm.options中的关于初始堆和最大堆内存，最好设置成一样的，运行时docker容器无法再申请更多内容资源。
+6. 参考docker执行命令如下:
+
+    `docker run -d -p 9200:9200 -p 9300:9300 --name poem-es -v $PWD/config:/usr/share/elasticsearch/config -v $PWD/esdata:/usr/share/elasticsearch/data  -v $PWD/plugins:/usr/share/elasticsearch/plugins   docker.elastic.co/elasticsearch/elasticsearch:6.3.2`
