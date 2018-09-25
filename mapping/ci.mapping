@@ -1,0 +1,33 @@
+PUT ci_poem
+{
+    "settings":{
+      "analysis": {
+  			"analyzer": "ik_max_word"
+	    }
+  },
+  
+  "mappings": {
+      "doc": {
+        "properties": {
+          "@timestamp": {
+            "type": "date"
+          },
+          "@version": {
+            "type": "integer"
+            },
+          "author": {
+            "type": "keyword"
+          },
+          "paragraphs": {
+            "type": "text"
+          },
+          "rhythmic": {
+            "type": "keyword"
+          },
+          "tags": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+}

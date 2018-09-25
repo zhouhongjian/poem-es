@@ -1,0 +1,46 @@
+PUT shi_tang_poem
+{
+    "settings":{
+      "analysis": {
+  			"analyzer": "ik_max_word"
+	    }
+  },
+  
+  "mappings": {
+      "doc": {
+        "dynamic": false,
+        "properties": {
+          "@timestamp": {
+            "type": "date"
+          },
+          "@version": {
+            "type": "integer"
+          },
+          "author": {
+            "type": "keyword"
+          },
+          "paragraphs": {
+            "type": "text"
+          },
+          "strains": {
+            "type": "keyword"
+          },
+          "tags": {
+            "type": "keyword"
+          },
+          "title": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "dynasty":{
+            "type":"keyword"
+          }
+        }
+      }
+    }
+}

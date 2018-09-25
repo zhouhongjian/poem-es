@@ -1,0 +1,39 @@
+PUT shijing
+{
+    "settings":{
+      "analysis": {
+  			"analyzer": "ik_max_word"
+	    }
+  },
+  
+  "mappings": {
+      "doc": {
+        "properties": {
+          "@timestamp": {
+            "type": "date"
+          },
+          "@version": {
+            "type": "integer"
+          },
+          "chapter": {
+            "type": "keyword"
+          },
+          "content": {
+            "type": "text"
+          },
+          "section": {
+            "type": "keyword"
+            },
+          "title": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+}

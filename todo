@@ -1,0 +1,48 @@
+繁简体转换问题
+python脚本转换
+
+批量压缩问题
+把python脚本放置到原json文件目录进行生成前缀为"res_"json文件
+
+建立几个索引
+唐诗
+宋词
+宋诗
+
+导入数据到es中
+通过logstash对"res_"json文件进行匹配读取，导入es中去
+logstash设置：
+1、删除一些不必要的字段:
+host\path
+remove_field => ["host","path"]
+
+2、更改一些字段的类型：
+确认keyword是否只能精确匹配，全都要text
+
+
+每一条json数据都在source字段中，在mapping中查看，直接就是放在root下面的
+
+
+mapping问题
+设置dynamic  false
+
+后期通过修改@version来进行版本数据更新
+mutate{
+        update => {"@version"=>5}
+    }
+
+设置分词器
+安装中文分词器ik
+
+
+简繁体问题----elasticsearch-analysis-stconvert插件
+下载第三方分词器
+用mvn打包
+将jar包放置到plugins文件夹下面的自定义文件夹中
+编写一个plugin-descriptor.properties文件，文件内容中设置的属性参考https://github.com/medcl/elasticsearch-rtf工程的，或者参考官方插件的
+重启es
+直接忽略掉，后面有时间再弄
+
+
+kibana
+reactiveSearch
